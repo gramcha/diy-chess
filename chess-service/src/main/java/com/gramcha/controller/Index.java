@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gramcha.entities.BoardState;
@@ -22,12 +23,18 @@ public class Index {
 	@Autowired
 	ModelService model;
 	
-	@RequestMapping(value="/")
+//	@RequestMapping("/")
+//	public String index() {
+//	    return "index";
+//	}
+	
+	@RequestMapping(value="/ping")
 	public ResponseEntity<String> ping() throws Exception{
 		return ResponseEntity.ok("pong - "+model.evaluate());
 	}
-	@RequestMapping(value="/moves")
+	@RequestMapping(value="/moves",method = RequestMethod.POST)
 	public ResponseEntity<List<BoardState>> findMoves(@RequestBody List<BoardState> states) throws Exception{
-		return ResponseEntity.ok(states);
+		System.out.println(states);
+		return ResponseEntity.ok(model.evaluate(states));
 	}
 }

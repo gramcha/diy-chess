@@ -5,9 +5,13 @@
  */
 package com.gramcha.service;
 
+import java.util.List;
+
 import javax.annotation.PostConstruct;
 
 import org.springframework.stereotype.Service;
+
+import com.gramcha.entities.BoardState;
 
 import weka.classifiers.Classifier;
 import weka.core.DenseInstance;
@@ -66,5 +70,42 @@ public class ModelService {
 		instance.setClassValue(predictedValue);
 		System.out.println("predict value - " + instance.stringValue(1));
 		return instance.toString();
+	}
+	public List<BoardState> evaluate(List<BoardState> states) throws Exception {
+		Instances testDataset = loadDataset("/Users/gramachandran/shared_folder_vbox/singletestitem.csv");
+		testDataset.setClassIndex(1);
+		states.forEach(state->{
+			Instance instance = new DenseInstance(testDataset.firstInstance());
+			testDataset.add(0,instance);
+			instance = testDataset.firstInstance();
+//	           
+//			fullmoves 	
+//			white_win 	
+//			pawn_diff 	
+//			rook_diff 	
+//			knight_diff
+//			bishop_diff
+//			queen_diff 
+//			
+			instance.setValue(0, state.getFullmoves());
+			instance.setValue(1, state.getWhite_win());
+			instance.setValue(2, state.getPawn_diff());
+			instance.setValue(3, state.getRook_diff());
+			instance.setValue(4, state.getKnight_diff());
+			instance.setValue(5, state.getBishop_diff());
+			instance.setValue(6, state.getQueen_diff());
+			try {
+				double predictedValue = classifier.classifyInstance(instance);
+				System.out.println(instance);
+				System.out.println("predictedValue: "+predictedValue);
+				instance.setClassValue(predictedValue);
+				state.setWhite_win(instance.stringValue(1));
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		});
+		System.out.println(states);
+		return states;
 	}
 }

@@ -92,10 +92,10 @@ public class BoardState {
 	}
 
 }
-// @attribute fullmoves numeric
-// @attribute white_win {False,True}
-// @attribute pawn_diff numeric
-// @attribute rook_diff numeric
-// @attribute knight_diff numeric
-// @attribute bishop_diff numeric
-// @attribute queen_diff numeric
+// @attribute fullmoves 		numeric
+// @attribute white_win 		{False,True}
+// @attribute pawn_diff 		numeric
+// @attribute rook_diff 		numeric
+// @attribute knight_diff 	numeric
+// @attribute bishop_diff 	numeric
+// @attribute queen_diff 	numeric
